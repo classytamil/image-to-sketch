@@ -1,19 +1,33 @@
 import streamlit as st
 import cv2
+import os
 import numpy as np
 from PIL import Image
 
+st.set_page_config(page_title="Sketchify - Image to Sketch Converter", layout="wide")
+
+# CSS for footer positioning
+st.markdown("""
+    <style>
+        .footer {
+            position: fixed;
+            bottom: 12px;
+            right: 20px;
+            color: gray;
+            font-size: 0.9em;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
 def main():
     # Set page title and layout
-    st.set_page_config(page_title="Image to Sketch Converter", layout="wide")
-    st.title("🖼️ Image to Sketch Converter")
-    st.markdown("Transform your images into beautiful pencil sketches with this easy-to-use app.")
+    st.title("Sketchify - Image to Sketch Converter 🖼️")
+    st.markdown("Easily transform your images into beautiful pencil sketches with this intuitive app. Just upload your photo and watch as it turns into a stunning sketch in seconds!")
     st.markdown("---")
 
     # Add a sidebar for instructions and settings
     with st.sidebar:
         # Main file uploader
-
         st.markdown("---")
         st.header("📜 Instructions")
         st.write("1. Upload an image (JPEG, PNG, or JPG).\n"
@@ -29,6 +43,9 @@ def main():
         # Load the image
         image = Image.open(uploaded_file)
         image_np = np.array(image)
+
+        # Extract the base filename without extension
+        file_name = os.path.splitext(uploaded_file.name)[0]
 
         # Check if the image is grayscale
         if len(image_np.shape) == 2 or image_np.shape[2] == 1:
@@ -68,8 +85,12 @@ def main():
         sketch_pil = Image.fromarray(pencil_sketch)
         sketch_pil.save("sketch.png")
         with open("sketch.png", "rb") as file:
-            st.download_button("📥 Download Sketch", data=file, file_name="sketch.png", mime="image/png")
+            st.download_button("📥 Download Sketch", data=file, file_name=f"{file_name}_sketch.png", mime="image/png")
         st.markdown("---")
+    
+    
+    st.markdown("<div class='footer'>Powered by Luzy | Sketchify </div>", unsafe_allow_html=True)
+
 
 if __name__ == "__main__":
     main()
