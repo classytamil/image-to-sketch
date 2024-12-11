@@ -25,7 +25,7 @@ def main():
     st.markdown("Easily transform your images into beautiful pencil sketches with this intuitive app. Just upload your photo and watch as it turns into a stunning sketch in seconds!")
     st.markdown("---")
 
-    # Add a sidebar for instructions and settings
+    # Add a sidebar for instructions and saettings
     with st.sidebar:
         # Main file uploader
         st.markdown("---")
